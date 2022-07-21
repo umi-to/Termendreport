@@ -18,7 +18,7 @@ typedef struct numbers {
 
 struct numbers decideAnswer(struct numbers ans);
 int getPredictLimit();
-bool isSame(struct numbers);
+bool isSame(struct numbers predict, struct numbers ans);
 struct numbers input(struct numbers predict);
 void gameclear();
 void gameover(struct numbers ans);

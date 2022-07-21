@@ -141,7 +141,8 @@
   <ItemGroup>
     <ClCompile Include="GameEnd.cpp" />
     <ClCompile Include="GameInit.cpp" />
-    <ClCompile Include="Termendreport.cpp" />
+    <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Termendreport.h" />
