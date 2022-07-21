@@ -23,3 +23,4 @@ bool isSame(struct numbers);
 struct numbers input(struct numbers predict);
 void gameclear();
 void gameover();
+void createResult();

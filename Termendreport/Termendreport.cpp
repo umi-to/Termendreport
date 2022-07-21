@@ -18,6 +18,7 @@ void decideAnswer() {
     } while (ans.digit[2] == ans.digit[0] || ans.digit[2] == ans.digit[1]);
 
     ans.ansvalue = ans.digit[0] * 100 + ans.digit[1] * 10 + ans.digit[2];
+
 }
 struct numbers input(struct numbers predict) {
     int a;
@@ -90,13 +91,38 @@ void gameover() {
     }
 }
 
+void createResult(struct numbers predict[], int predictcount) {
+    FILE* fp;
+    errno_t error;
+    error = fopen_s(&fp, "Hit&BlowResult.csv", "w");
+    if (error != 0)
+        fprintf_s(stderr, "failed to open");
+    else {
+        
+        fprintf(fp, "%s,", "答え");
+        for (int i = 0; i < digitnum; i++) {
+            fprintf(fp, "%d,", ans.digit[i]);
+        }
+        fprintf(fp, "\n");
+        for (int i = 0; i < predictcount; i++) {
+            fprintf(fp, "%d回目の入力,", i + 1);
+            for (int j = 0; j < digitnum; j++) {
+                fprintf(fp, "%d,", predict[i].digit[j]);
+            }
+            fprintf(fp, "\n");
+        }
+        
+        fclose(fp);
+    }
+}
+
 int main(){
     char currentDirectory[CHARBUFF];
     getCurrentDirectory(currentDirectory);
     char settingFile[CHARBUFF];
     sprintf_s(settingFile, "%s\\setting.ini", currentDirectory);
 
-    int predcict_limit = GetPrivateProfileInt("section1", "predict_limit", -1, settingFile);
+    int predcictLimit = GetPrivateProfileInt("section1", "predict_limit", -1, settingFile);
 
     decideAnswer();
     struct numbers predict[10];
@@ -104,7 +130,7 @@ int main(){
     bool clearflag = false;
     int predictcount = 0;
     
-    while (clearflag == false && predictcount < predcict_limit) {
+    while (clearflag == false && predictcount < predcictLimit) {
        predict[predictcount] = input(predict[predictcount]);
        clearflag = isSame(predict[predictcount]);
        predictcount++;
@@ -117,5 +143,7 @@ int main(){
     else {
         gameover();
     }
+    createResult(predict, predictcount);
+
 
 }
