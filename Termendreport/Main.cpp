@@ -27,7 +27,7 @@ int main(){
         }
         createResult(predict, ans, predictcount);
 
-        char input[2];
+        char input[CHARBUFF];
         fprintf_s(stdout, "もう一度プレイする場合はrを入力してください：");
         scanf_s("%s", input, CHARBUFF);
         
