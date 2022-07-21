@@ -16,13 +16,11 @@ typedef struct numbers {
     int ansvalue;
 };
 
-struct numbers ans;
-
-void decideAnswer();
+struct numbers decideAnswer(struct numbers ans);
 int getPredictLimit();
 bool isSame(struct numbers);
 struct numbers input(struct numbers predict);
 void gameclear();
-void gameover();
-void createResult(struct numbers predict[], int predictcount);
+void gameover(struct numbers ans);
+void createResult(struct numbers predict[], struct numbers ans, int predictcount);
 int countResult();

@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameEnd.cpp" />
+    <ClCompile Include="GameInit.cpp" />
     <ClCompile Include="Termendreport.cpp" />
   </ItemGroup>
   <ItemGroup>

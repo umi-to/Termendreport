@@ -1,33 +1,7 @@
 ﻿// Termendreport.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
 //
 #include "Termendreport.h"
-
-void getCurrentDirectory(char* currentDirectory) {
-    GetCurrentDirectory(CHARBUFF, currentDirectory);
-}
-
-void decideAnswer() {
-    srand((unsigned int)time(NULL));
-    ans.digit[0] = rand() % 10;
-    do {
-        ans.digit[1] = rand() % 10;
-    } while (ans.digit[0] == ans.digit[1]);
-
-    do {
-        ans.digit[2] = rand() % 10;
-    } while (ans.digit[2] == ans.digit[0] || ans.digit[2] == ans.digit[1]);
-
-    ans.ansvalue = ans.digit[0] * 100 + ans.digit[1] * 10 + ans.digit[2];
-
-}
-int getPredictLimit() {
-    char currentDirectory[CHARBUFF];
-    getCurrentDirectory(currentDirectory);
-    char settingFile[CHARBUFF];
-    sprintf_s(settingFile, "%s\\setting.ini", currentDirectory);
-
-    return  GetPrivateProfileInt("section1", "predict_limit", -1, settingFile);
-}
+struct numbers ans;
 
 struct numbers input(struct numbers predict) {
     int a;
@@ -89,85 +63,13 @@ bool isSame(struct numbers predict) {
     return false;
 }
 
-void gameclear() {
-    fprintf_s(stdout, "ゲームクリア！！！！\n");
-}
 
-void gameover() {
-    fprintf_s(stdout, "ゲームオーバー...\n正解は");
-    for (int i = 0; i < digitnum; i++) {
-        fprintf_s(stdout, "%d", ans.digit[i]);
-    }
-}
-
-int countResult() {
-    int fileCount = 0;
-    FILE* fp;
-    char filename[CHARBUFF];
-    int fc = 0;
-    errno_t error;
-    error = fopen_s(&fp, "ResultCount.txt", "a+");
-    if (error != 0)
-        fprintf_s(stderr, "failed to open");
-    else {
-
-        while (fscanf_s(fp, "%d", &fc) != EOF) {
-            fileCount = fc;
-            fprintf_s(stdout, "%d", fc);
-        };
-
-        fprintf_s(stdout, "%d", fileCount);
-        fprintf(fp, "%d\n", fileCount + 1);
-        fclose(fp);
-    }
-    return fileCount;
-}
-
-void createResult(struct numbers predict[], int predictcount) {
-    FILE* fp;
-    char filename[CHARBUFF];
-    int fileCount = countResult();
-    int fc = 0;
-    errno_t error;
- 
-    sprintf_s(filename, "Hit&BlowResult_%d.csv", fileCount + 1);
-    
-    error = fopen_s(&fp, filename, "w");
-    if (error != 0)
-        fprintf_s(stderr, "failed to open");
-    else {
-        
-        fprintf(fp, "%s,", "答え");
-        for (int i = 0; i < digitnum; i++) {
-            fprintf(fp, "%d,", ans.digit[i]);
-        }
-        fprintf(fp, "\n");
-        for (int i = 0; i < predictcount; i++) {
-            fprintf(fp, "%d回目の入力,", i + 1);
-            for (int j = 0; j < digitnum; j++) {
-                fprintf(fp, "%d,", predict[i].digit[j]);
-            }
-            fprintf(fp, "\n");
-        }
-        
-        fclose(fp);
-    }
-
-    error = fopen_s(&fp, "ResultCount.txt", "w");
-    if (error != 0)
-        fprintf_s(stderr, "failed to open");
-    else {
-
-        fprintf(fp, "%d\n", fileCount + 1);
-        fclose(fp);
-    }
-}
 
 int main(){
 
     int predcictLimit = getPredictLimit();
 
-    decideAnswer();
+   ans =  decideAnswer(ans);
     struct numbers predict[10];
 
     bool clearflag = false;
@@ -184,9 +86,9 @@ int main(){
         gameclear();
     }
     else {
-        gameover();
+        gameover(ans);
     }
-    createResult(predict, predictcount);
+    createResult(predict, ans, predictcount);
 
 
 }
