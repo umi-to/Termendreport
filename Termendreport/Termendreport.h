@@ -23,4 +23,5 @@ bool isSame(struct numbers);
 struct numbers input(struct numbers predict);
 void gameclear();
 void gameover();
-void createResult();
+void createResult(struct numbers predict[], int predictcount);
+int countResult();

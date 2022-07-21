@@ -91,10 +91,41 @@ void gameover() {
     }
 }
 
+int countResult() {
+    int fileCount = 0;
+    FILE* fp;
+    char filename[CHARBUFF];
+    int fc = 0;
+    errno_t error;
+    error = fopen_s(&fp, "ResultCount.txt", "a+");
+    if (error != 0)
+        fprintf_s(stderr, "failed to open");
+    else {
+
+        while (fscanf_s(fp, "%d", &fc) != EOF) {
+            fileCount = fc;
+            fprintf_s(stdout, "%d", fc);
+        };
+
+        fprintf_s(stdout, "%d", fileCount);
+        fprintf(fp, "%d\n", fileCount + 1);
+        fclose(fp);
+    }
+    return fileCount;
+}
+
 void createResult(struct numbers predict[], int predictcount) {
     FILE* fp;
+    char filename[CHARBUFF];
+    int fileCount = countResult();
+    int fc = 0;
     errno_t error;
-    error = fopen_s(&fp, "Hit&BlowResult.csv", "w");
+    
+
+    
+    sprintf_s(filename, "Hit&BlowResult_%d.csv", fileCount + 1);
+    
+    error = fopen_s(&fp, filename, "w");
     if (error != 0)
         fprintf_s(stderr, "failed to open");
     else {
@@ -112,6 +143,15 @@ void createResult(struct numbers predict[], int predictcount) {
             fprintf(fp, "\n");
         }
         
+        fclose(fp);
+    }
+
+    error = fopen_s(&fp, "ResultCount.txt", "w");
+    if (error != 0)
+        fprintf_s(stderr, "failed to open");
+    else {
+
+        fprintf(fp, "%d\n", fileCount + 1);
         fclose(fp);
     }
 }
