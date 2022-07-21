@@ -17,6 +17,7 @@ void gameover(struct numbers ans) {
     for (int i = 0; i < digitnum; i++) {
         fprintf_s(stdout, "%d", ans.digit[i]);
     }
+    fprintf_s(stdout, "\n");
 }
 
 int countResult() {
@@ -35,7 +36,6 @@ int countResult() {
             fprintf_s(stdout, "%d", fc);
         };
 
-        fprintf_s(stdout, "%d", fileCount);
         fprintf(fp, "%d\n", fileCount + 1);
         fclose(fp);
     }

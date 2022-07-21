@@ -3,29 +3,38 @@
 #include "Termendreport.h"
 struct numbers ans;
 int main(){
-    
-    int predcictLimit = getPredictLimit();
+    while (1) {
+        int predcictLimit = getPredictLimit();
 
-   ans =  decideAnswer(ans);
-    struct numbers predict[10];
+        ans = decideAnswer(ans);
+        struct numbers predict[10];
 
-    bool clearflag = false;
-    int predictcount = 0;
-    
-    while (clearflag == false && predictcount < predcictLimit) {
-       predict[predictcount] = input(predict[predictcount]);
-       clearflag = isSame(predict[predictcount], ans);
-       predictcount++;
-       fprintf_s(stdout, "%d\n", predictcount);
-    }
+        bool clearflag = false;
+        int predictcount = 0;
 
-    if (clearflag == true) {
-        gameclear();
+        while (clearflag == false && predictcount < predcictLimit) {
+            predict[predictcount] = input(predict[predictcount]);
+            clearflag = isSame(predict[predictcount], ans);
+            predictcount++;
+            fprintf_s(stdout, "%d\n", predictcount);
+        }
+
+        if (clearflag == true) {
+            gameclear();
+        }
+        else {
+            gameover(ans);
+        }
+        createResult(predict, ans, predictcount);
+
+        char input[2];
+        fprintf_s(stdout, "もう一度プレイする場合はrを入力してください：");
+        scanf_s("%s", input, CHARBUFF);
+        
+        if (*input != 'r')break; 
+
     }
-    else {
-        gameover(ans);
-    }
-    createResult(predict, ans, predictcount);
+    return 0;
 
 
 }

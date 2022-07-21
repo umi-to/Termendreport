@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include <stdio.h>
 #include <time.h>
 #include <ctype.h>
 #include <stdbool.h>
