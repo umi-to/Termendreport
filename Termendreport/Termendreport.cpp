@@ -20,6 +20,15 @@ void decideAnswer() {
     ans.ansvalue = ans.digit[0] * 100 + ans.digit[1] * 10 + ans.digit[2];
 
 }
+int getPredictLimit() {
+    char currentDirectory[CHARBUFF];
+    getCurrentDirectory(currentDirectory);
+    char settingFile[CHARBUFF];
+    sprintf_s(settingFile, "%s\\setting.ini", currentDirectory);
+
+    return  GetPrivateProfileInt("section1", "predict_limit", -1, settingFile);
+}
+
 struct numbers input(struct numbers predict) {
     int a;
     char input[256];
@@ -120,9 +129,7 @@ void createResult(struct numbers predict[], int predictcount) {
     int fileCount = countResult();
     int fc = 0;
     errno_t error;
-    
-
-    
+ 
     sprintf_s(filename, "Hit&BlowResult_%d.csv", fileCount + 1);
     
     error = fopen_s(&fp, filename, "w");
@@ -157,12 +164,8 @@ void createResult(struct numbers predict[], int predictcount) {
 }
 
 int main(){
-    char currentDirectory[CHARBUFF];
-    getCurrentDirectory(currentDirectory);
-    char settingFile[CHARBUFF];
-    sprintf_s(settingFile, "%s\\setting.ini", currentDirectory);
 
-    int predcictLimit = GetPrivateProfileInt("section1", "predict_limit", -1, settingFile);
+    int predcictLimit = getPredictLimit();
 
     decideAnswer();
     struct numbers predict[10];
