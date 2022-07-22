@@ -13,7 +13,6 @@ int main(){
 
     while (1) {
         
-
         ans = decideAnswer(ans);
         struct numbers predict[10];
 

@@ -13,7 +13,6 @@ typedef struct numbers {
     int ansvalue;
 };
 
-
 struct numbers input(struct numbers predict) {
     int a;
     char input[256];
@@ -44,7 +43,6 @@ struct numbers input(struct numbers predict) {
     for (int i = 0; i < digitnum; i++) {
         predict.digit[i] = (int)(predict.ansvalue / pow(10, 2 - i)) % 10;
     }
-
 
     return predict;
 }
