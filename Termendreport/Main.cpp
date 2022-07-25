@@ -10,7 +10,6 @@ int main(){
     printf("数字と場所が合えばヒット、数字のみがあっていればブロー\n");
     printf("%d回以内に正解すればクリア\n\n", predictLimit);
 
-
     while (1) {
         
         ans = decideAnswer(ans);
@@ -42,6 +41,5 @@ int main(){
 
     }
     return 0;
-
 
 }

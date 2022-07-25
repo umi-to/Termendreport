@@ -35,9 +35,6 @@ struct numbers input(struct numbers predict) {
         }
 
     }
-    for (int i = 0; i < digitnum; i++) {
-        predict.digit[i] = atoi(&input[i]);
-    }
 
     predict.ansvalue = atoi(&input[0]);
     for (int i = 0; i < digitnum; i++) {
