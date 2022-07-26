@@ -19,7 +19,13 @@ void gameover(struct numbers ans) {
     }
     fprintf_s(stdout, "\n");
 }
-
+/*
+プログラムを行う度に新しく結果ファイルを生成する。すでにある結果ファイルの上書きを防ぐ。
+このゲームの結果ファイルがいくつ存在するかを管理している。
+今ある結果ファイルの個数を管理するテキストファイルを作成し、その値を読み込む
+ResultCount.txtが存在すればそこに書かれている値を読み取りそこに書かれている値を返す。
+存在しなければ新しくこのファイルを作成し0を返す。
+*/
 int countResult() {
     int fileCount = 0;
     FILE* fp;
@@ -45,10 +51,11 @@ int countResult() {
 void createResult(struct numbers predict[], struct numbers ans, int predictcount) {
     FILE* fp;
     char filename[CHARBUFF];
-    int fileCount = countResult();
+    int fileCount = countResult();  //結果ファイルがいくつ存在しているかを数える。
     int fc = 0;
     errno_t error;
 
+    //ファイル名は「Hit&BlowResult_ファイル番号」
     sprintf_s(filename, "Hit&BlowResult_%d.csv", fileCount + 1);
 
     error = fopen_s(&fp, filename, "w");
@@ -72,6 +79,7 @@ void createResult(struct numbers predict[], struct numbers ans, int predictcount
         fclose(fp);
     }
 
+    //ResultCount.txt１に新しくファイルの個数を書き込む
     error = fopen_s(&fp, "ResultCount.txt", "w");
     if (error != 0)
         fprintf_s(stderr, "failed to open");

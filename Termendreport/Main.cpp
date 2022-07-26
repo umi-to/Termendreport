@@ -10,6 +10,9 @@ int main(){
     printf("数字と場所が合えばヒット、数字のみがあっていればブロー\n");
     printf("%d回以内に正解すればクリア\n\n", predictLimit);
 
+    /*
+    ゲーム終了時にrが入力されればもう一度ゲームが始まり、それ以外が入力されればプログラムを終了する。
+    */
     while (1) {
         
         ans = decideAnswer(ans);
@@ -18,6 +21,7 @@ int main(){
         bool clearflag = false;
         int predictcount = 0;
 
+        //入力した数字が間違っているかつ、入力回数が規定以下である場合、ループを繰り返す。
         while (clearflag == false && predictcount < predictLimit) {
             predict[predictcount] = input(predict[predictcount]);
             clearflag = isSame(predict[predictcount], ans);
@@ -31,6 +35,7 @@ int main(){
         else {
             gameover(ans);
         }
+        //結果ファイルを出力
         createResult(predict, ans, predictcount);
 
         char retry[CHARBUFF];
